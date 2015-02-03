@@ -14,10 +14,14 @@ app.use(serve(root, opts));
 app.post('/Home/Login', function *(next) {
     var body = this.request.body,
         success = (body.email === 'foo' && body.password === 'bar');
-    console.log(success);
     this.response.body = (success) ?
                         '{"Success":"true"}' :
                         '{"Success":"false"}';
+    yield next;
+});
+
+app.get('/Home/Logout', function *(next) {
+    this.response.body = '{"Signed":"false"}';
     yield next;
 });
 
