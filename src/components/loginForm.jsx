@@ -5,11 +5,11 @@ var React = require('react'),
 var LoginForm = React.createClass({
     onSubmit: function(e){
         e.preventDefault();
-        console.log('form submit!')
+        UserStore.makeLogin(e.target);
     },
     render: function(){
         return (
-<form method="POST" action="/Home/Login" onSubmit={onSubmit}>
+<form method="POST" action="/Home/Login" onSubmit={this.onSubmit}>
     <div>
         <label>Email</label>
         <input type="text" name="email" />

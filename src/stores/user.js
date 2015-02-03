@@ -1,8 +1,11 @@
 var EventEmitter = require('eventemitter3').EventEmitter,
-    assign = require('object-assign');
+    assign = require('object-assign'),
+    $ = require('jquery');
 var CHANGE_EVENT = 'change';
 
-function makeLogin(){
+function makeLogin(formElement){
+    var form = $(formElement);
+    $.post( form.attr('action'), form.serialize() );
     return false;
 }
 
