@@ -4,7 +4,8 @@ var EventEmitter = require('eventemitter3').EventEmitter,
 var CHANGE_EVENT = 'change';
 
 var _user = {
-        signedIn: false
+        signedIn: false,
+        debug: ''
     };
 
 function makeLogin(formElement){
@@ -38,10 +39,24 @@ function getUserState(){
     return _user;
 }
 
+function debugAPI(url){
+    $.get(url)
+        .done(function(data){
+            _user.debug = data;
+            UserStore.emitChange();
+        })
+        .fail(function(){
+            console.log('GET failed');
+            _user.debug = 'error';
+            UserStore.emitChange();
+        });
+}
+
 var UserStore = assign({}, EventEmitter.prototype,{
     makeLogin: makeLogin,
     logout: logout,
     getUserState: getUserState,
+    debugAPI: debugAPI,
     addChangeListener: function(callback) {
         this.on(CHANGE_EVENT, callback);
     },
@@ -49,7 +64,6 @@ var UserStore = assign({}, EventEmitter.prototype,{
         this.removeListener(CHANGE_EVENT, callback);
     },
     emitChange: function() {
-        console.log('Change emitted', _user);
         this.emit(CHANGE_EVENT);
     }
 });

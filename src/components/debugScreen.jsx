@@ -10,11 +10,26 @@ var DebugScreen = React.createClass({
     },
 
     getAdminURL: function(){
-
+        UserStore.debugAPI('/Home/Admin');
     },
 
     logout: function(){
         UserStore.logout();
+    },
+
+    onUserChange: function(){
+        var user = UserStore.getUserState();
+        this.setState({
+            debugText: user.debug
+        });
+    },
+
+    componentDidMount: function() {
+        UserStore.addChangeListener(this.onUserChange);
+    },
+
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this.onUserChange);
     },
 
     render: function(){
@@ -23,7 +38,7 @@ var DebugScreen = React.createClass({
     <button onClick={this.getAdminURL}>
         Test Admin URL
     </button>
-    <textarea value={this.state.debugText} />
+    <textarea readOnly value={this.state.debugText} />
     <br />
     <button onClick={this.logout}>
         Test Logout URL

@@ -15,7 +15,6 @@ var App = React.createClass({
     },
 
     onUserChange: function(){
-        console.log('Change listened');
         var user = UserStore.getUserState();
         console.log(user);
         if (user.signedIn){
